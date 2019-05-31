@@ -11,9 +11,11 @@ public class ContactPointDto {
     public static final String          TYPE_BUSINESS_EMAIL    = "BusinessEmail";
     public static final String          TYPE_BUSINESS_PHONE    = "BusinessPhone";
 
-    private String contactPointType;
+    private String addressId;
 
     private String customerId;
+
+    private String contactPointType;
 
     private String attention;
 
@@ -31,7 +33,13 @@ public class ContactPointDto {
 
     private String countryCode;
 
+    private String email;
+
     private String phoneNumber;
+
+    private String latitude;
+
+    private String longitude;
 
     public String getContactPointType() {
         return contactPointType;
@@ -39,6 +47,14 @@ public class ContactPointDto {
 
     public void setContactPointType(String contactPointType) {
         this.contactPointType = contactPointType;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public String getCustomerId() {
@@ -119,5 +135,29 @@ public class ContactPointDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }
