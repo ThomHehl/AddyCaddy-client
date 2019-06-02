@@ -160,4 +160,25 @@ public class ContactPointDto {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "ContactPointDto{" +
+                "addressId='" + addressId + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", contactPointType='" + contactPointType + '\'' +
+                ", attention='" + attention + '\'' +
+                ", name='" + name + '\'' +
+                ", street1='" + street1 + '\'' +
+                ", street2='" + street2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                '}';
+    }
 }
