@@ -116,9 +116,26 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     public ContactPointDto[] findByCustomerId(String customerId) throws Exception {
         URIBuilder builder = startUri(AddyCaddyConstants.PATH_FIND_BY_CUST_ID);
         builder.setParameter(AddyCaddyConstants.KEY_CUSTOMER_ID, customerId);
-        URI uri = toUri(builder);
+        String response = getResponse(builder);
+
+        ContactPointDto[] result = objectMapper.readValue(response, ContactPointDto[].class);
+        return result;
+    }
+
+    private String getResponse(URIBuilder uriBuilder) throws Exception {
+        URI uri = toUri(uriBuilder);
         HttpGet httpGet = new HttpGet(uri);
-        String response = readResponse(httpGet);
+        String result = readResponse(httpGet);
+
+        return result;
+    }
+
+    @Override
+    public ContactPointDto[] search(String searchBy, String searchKey) throws Exception {
+        URIBuilder builder = startUri(AddyCaddyConstants.PATH_SEARCH);
+        builder.setParameter(AddyCaddyConstants.KEY_SEARCH_BY, searchBy);
+        builder.setParameter(AddyCaddyConstants.KEY_SEARCH_KEY, searchKey);
+        String response = getResponse(builder);
 
         ContactPointDto[] result = objectMapper.readValue(response, ContactPointDto[].class);
         return result;
