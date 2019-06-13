@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 
 public class AddyCaddyClientImpl implements AddyCaddyClient {
     public static final int             DEFAULT_PORT = 9002;
-    private static final String         PROTOCOL = "https";
+    private static final String         PROTOCOL = "http";
 
     private String                      hostname;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -34,12 +34,12 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     }
 
     @Override
-    public ContactPointDto create(ContactPointDto contactPointDto) throws Exception {
-        ContactPointDto result = postAndReturn(AddyCaddyConstants.PATH_CREATE, contactPointDto);
+    public String create(ContactPointDto contactPointDto) throws Exception {
+        String result = postAndReturn(AddyCaddyConstants.PATH_CREATE, contactPointDto);
         return result;
     }
 
-    private ContactPointDto postAndReturn(String path, ContactPointDto contactPointDto) throws Exception{
+    private String postAndReturn(String path, ContactPointDto contactPointDto) throws Exception{
         URIBuilder builder = startUri(path);
         String json = objectMapper.writeValueAsString(contactPointDto);
         builder.setParameter(AddyCaddyConstants.KEY_CONTACT_POINT, json);
@@ -47,8 +47,7 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
         HttpPost httpPost = new HttpPost(uri);
         String response = readResponse(httpPost);
 
-        ContactPointDto result = objectMapper.readValue(response, ContactPointDto.class);
-        return result;
+        return response;
     }
 
     private URI toUri(URIBuilder builder) throws Exception {
@@ -126,8 +125,8 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     }
 
     @Override
-    public ContactPointDto update(ContactPointDto contactPointDto) throws Exception {
-        ContactPointDto result = postAndReturn(AddyCaddyConstants.PATH_UPDATE, contactPointDto);
+    public String update(ContactPointDto contactPointDto) throws Exception {
+        String result = postAndReturn(AddyCaddyConstants.PATH_UPDATE, contactPointDto);
         return result;
     }
 }

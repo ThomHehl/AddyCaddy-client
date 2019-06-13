@@ -7,4 +7,7 @@ public interface AddyCaddyConstants {
     public static final String          PATH_CREATE = "/create";
     public static final String          PATH_FIND_BY_CUST_ID = "/findByCustomerId";
     public static final String          PATH_UPDATE = "/update";
+
+    public static final String          RESPONSE_FAILURE = "failure";
+    public static final String          RESPONSE_SUCCESS = "success";
 }

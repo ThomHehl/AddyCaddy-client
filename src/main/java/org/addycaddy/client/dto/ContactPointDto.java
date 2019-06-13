@@ -15,6 +15,8 @@ public class ContactPointDto {
 
     private String customerId;
 
+    private String additionalId;
+
     private String contactPointType;
 
     private String attention;
@@ -40,6 +42,14 @@ public class ContactPointDto {
     private String latitude;
 
     private String longitude;
+
+    public String getAdditionalId() {
+        return additionalId;
+    }
+
+    public void setAdditionalId(String additionalId) {
+        this.additionalId = additionalId;
+    }
 
     public String getContactPointType() {
         return contactPointType;
