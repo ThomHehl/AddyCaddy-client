@@ -6,7 +6,10 @@ public class ContactPointDto {
     public static final String          TYPE_BILLING_PHONE     = "BillingPhone";
     public static final String          TYPE_BUSINESS_FAX      = "Fax";
     //this is a business location, which may be different from billing and shipping address
-    public static final String          TYPE_LOCATION          = "Location";
+    public static final String          TYPE_LOCATION_ADDR     = "LocationAddress";
+    public static final String          TYPE_LOCATION_FAX      = "LocationFax";
+    public static final String          TYPE_LOCATION_PHONE    = "LocationPhone";
+    public static final String          TYPE_LOCATION_EMAIL    = "LocationEmail";
     public static final String          TYPE_SHIPPING_ADDR     = "ShippingAddress";
     public static final String          TYPE_BUSINESS_EMAIL    = "BusinessEmail";
     public static final String          TYPE_BUSINESS_PHONE    = "BusinessPhone";
