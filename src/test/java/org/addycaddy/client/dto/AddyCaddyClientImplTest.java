@@ -1,15 +1,16 @@
 package org.addycaddy.client.dto;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This is not a true unit test since it runs against a live server and the server will maintain state. It is
- * recommended that you start the server using an in memory database and then run these tests against it.
+ * This is not a true unit test since it runs against a live server and the server will maintain state. Therefore,
+ * these tests must be run in the specified order.
+ *
+ * It is recommended that you start the server using an in memory database and then run these tests against it.
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class AddyCaddyClientImplTest {
     public static final String          COUNTRY_CODE_US = "US";
     public static final String          CUSTOMER_ID = "zbeeblebrox";
@@ -46,7 +47,7 @@ class AddyCaddyClientImplTest {
         ContactPointDto result = new ContactPointDto();
 
         result.setCountryCode(COUNTRY_CODE_US);
-        result.setContactPointType(ContactPointDto.TYPE_LOCATION);
+        result.setContactPointType(ContactPointDto.TYPE_LOCATION_ADDR);
         result.setCustomerId(CUSTOMER_ID);
         result.setAttention("Billing Dept.");
         result.setName("Zaphod Beeblebrox");
@@ -66,11 +67,10 @@ class AddyCaddyClientImplTest {
         dtoEmail = getBillingEmail();
         assertEquals(AddyCaddyConstants.RESPONSE_SUCCESS, addyCaddyClient.create(dtoEmail));
 
-        dtoPhone = getBillingPhone();
-        assertEquals(AddyCaddyConstants.RESPONSE_SUCCESS, addyCaddyClient.create(dtoPhone));
-
         dtoAddress = getLocation();
-        assertEquals(AddyCaddyConstants.RESPONSE_SUCCESS, addyCaddyClient.create(dtoAddress));
+        dtoPhone = getBillingPhone();
+        ContactPointDto[] dtos = new ContactPointDto[] {dtoPhone, dtoAddress};
+        assertEquals(AddyCaddyConstants.RESPONSE_SUCCESS, addyCaddyClient.create(dtos));
     }
 
     @BeforeEach
@@ -84,9 +84,10 @@ class AddyCaddyClientImplTest {
 
         for (ContactPointDto dto : dtos) {
             assertEquals(CUSTOMER_ID, dto.getCustomerId());
+            assertNotNull(dto.getAddressId());
 
             switch (dto.getContactPointType()) {
-                case ContactPointDto.TYPE_LOCATION:
+                case ContactPointDto.TYPE_LOCATION_ADDR:
                     assertEquals(dtoAddress.getStreet1(), dto.getStreet1());
                     break;
 
@@ -162,14 +163,14 @@ class AddyCaddyClientImplTest {
         assertEquals(1, result.length);
         resultDto = result[0];
         assertEquals(CUSTOMER_ID, resultDto.getCustomerId());
-        assertEquals(ContactPointDto.TYPE_LOCATION, resultDto.getContactPointType());
+        assertEquals(ContactPointDto.TYPE_LOCATION_ADDR, resultDto.getContactPointType());
         assertEquals(dtoAddress.getPostalCode(), resultDto.getPostalCode());
 
         result = addyCaddyClient.search(AddyCaddyConstants.SEARCH_BY_POSTAL_CODE, otherZip);
         assertEquals(1, result.length);
         resultDto = result[0];
         assertEquals(otherCustomer, resultDto.getCustomerId());
-        assertEquals(ContactPointDto.TYPE_LOCATION, resultDto.getContactPointType());
+        assertEquals(ContactPointDto.TYPE_LOCATION_ADDR, resultDto.getContactPointType());
         assertEquals(otherZip, resultDto.getPostalCode());
     }
 
@@ -179,7 +180,7 @@ class AddyCaddyClientImplTest {
         ContactPointDto myDto = null;
 
         for (ContactPointDto dto : dtos) {
-            if (ContactPointDto.TYPE_LOCATION.equals(dto.getContactPointType())) {
+            if (ContactPointDto.TYPE_LOCATION_ADDR.equals(dto.getContactPointType())) {
                 myDto = dto;
                 break;
             }
@@ -199,5 +200,51 @@ class AddyCaddyClientImplTest {
         }
 
         assertEquals(newStreet, myDto.getStreet1());
+    }
+
+    @Test
+    void testUpdate_array() throws Exception {
+        ContactPointDto[] dtos = addyCaddyClient.findByCustomerId(CUSTOMER_ID);
+        ContactPointDto phoneDto = null;
+        ContactPointDto emailDto = null;
+
+        for (ContactPointDto dto : dtos) {
+            if (ContactPointDto.TYPE_BILLING_EMAIL.equals(dto.getContactPointType())) {
+                emailDto = dto;
+            }
+            else if (ContactPointDto.TYPE_BILLING_PHONE.equals(dto.getContactPointType())) {
+                phoneDto = dto;
+            }
+        }
+        assertNotNull(phoneDto);
+        assertNotNull(emailDto);
+
+        final String newPhone = "123456789";
+        phoneDto.setPhoneNumber(newPhone);
+
+        final String newEmail = "slartibartfast@magrathea.com";
+        emailDto.setEmail(newEmail);
+
+        dtos = new ContactPointDto[] {phoneDto, emailDto};
+        assertEquals(AddyCaddyConstants.RESPONSE_SUCCESS, addyCaddyClient.update(dtos));
+
+        dtos = addyCaddyClient.findByCustomerId(CUSTOMER_ID);
+
+        boolean foundEmail = false;
+        boolean foundPhone = false;
+
+        for (ContactPointDto dto : dtos) {
+            if (ContactPointDto.TYPE_BILLING_EMAIL.equals(dto.getContactPointType())) {
+                assertEquals(newEmail, dto.getEmail());
+                foundEmail = true;
+            }
+            else if (ContactPointDto.TYPE_BILLING_PHONE.equals(dto.getContactPointType())) {
+                assertEquals(newPhone, dto.getPhoneNumber());
+                foundPhone = true;
+            }
+        }
+
+        assertTrue(foundEmail);
+        assertTrue(foundPhone);
     }
 }

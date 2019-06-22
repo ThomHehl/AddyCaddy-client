@@ -39,14 +39,31 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
         return result;
     }
 
+    @Override
+    public String create(ContactPointDto[] contactPointDtos) throws Exception {
+        String result = postAndReturn(AddyCaddyConstants.PATH_CREATE_MANY, contactPointDtos);
+        return result;
+    }
+
     private String postAndReturn(String path, ContactPointDto contactPointDto) throws Exception{
-        URIBuilder builder = startUri(path);
         String json = objectMapper.writeValueAsString(contactPointDto);
-        builder.setParameter(AddyCaddyConstants.KEY_CONTACT_POINT, json);
+        String response = postAndReturn(path, AddyCaddyConstants.KEY_CONTACT_POINT, json);
+        return response;
+    }
+
+    private String postAndReturn(String path, String parmName, String parmValue) throws Exception{
+        URIBuilder builder = startUri(path);
+        builder.setParameter(parmName, parmValue);
         URI uri = toUri(builder);
         HttpPost httpPost = new HttpPost(uri);
         String response = readResponse(httpPost);
 
+        return response;
+    }
+
+    private String postAndReturn(String path, ContactPointDto[] contactPointDtos) throws Exception{
+        String json = objectMapper.writeValueAsString(contactPointDtos);
+        String response = postAndReturn(path, AddyCaddyConstants.KEY_CONTACT_POINTS, json);
         return response;
     }
 
@@ -144,6 +161,12 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     @Override
     public String update(ContactPointDto contactPointDto) throws Exception {
         String result = postAndReturn(AddyCaddyConstants.PATH_UPDATE, contactPointDto);
+        return result;
+    }
+
+    @Override
+    public String update(ContactPointDto[] contactPointDtos) throws Exception {
+        String result = postAndReturn(AddyCaddyConstants.PATH_UPDATE_MANY, contactPointDtos);
         return result;
     }
 }
