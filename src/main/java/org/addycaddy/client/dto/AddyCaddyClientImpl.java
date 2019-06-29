@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class AddyCaddyClientImpl implements AddyCaddyClient {
     public static final int             DEFAULT_PORT = 9002;
@@ -24,12 +25,31 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     private ObjectMapper objectMapper = new ObjectMapper();
     private int                         port;
 
+    protected AddyCaddyClientImpl() {
+    }
+
     public AddyCaddyClientImpl(String hostname) {
         this(hostname, DEFAULT_PORT);
     }
 
     public AddyCaddyClientImpl(String hostname, int port) {
         this.hostname = hostname;
+        this.port = port;
+    }
+
+    protected String getHostname() {
+        return hostname;
+    }
+
+    protected void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
+    protected int getPort() {
+        return port;
+    }
+
+    protected void setPort(int port) {
         this.port = port;
     }
 
@@ -41,6 +61,15 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
 
     @Override
     public String create(ContactPointDto[] contactPointDtos) throws Exception {
+        String result = postAndReturn(AddyCaddyConstants.PATH_CREATE_MANY, contactPointDtos);
+        return result;
+    }
+
+    @Override
+    public String create(List<ContactPointDto> contactPointList) throws Exception {
+        ContactPointDto[] contactPointDtos = new ContactPointDto[contactPointList.size()];
+        contactPointDtos = contactPointList.toArray(contactPointDtos);
+
         String result = postAndReturn(AddyCaddyConstants.PATH_CREATE_MANY, contactPointDtos);
         return result;
     }
