@@ -3,16 +3,26 @@ package org.addycaddy.client.dto;
 public class ContactPointDto {
     public static final String          TYPE_BILLING_ADDR      = "BillingAddress";
     public static final String          TYPE_BILLING_EMAIL     = "BillingEmail";
+    public static final String          TYPE_BILLING_FAX       = "BillingFax";
     public static final String          TYPE_BILLING_PHONE     = "BillingPhone";
-    public static final String          TYPE_BUSINESS_FAX      = "Fax";
-    //this is a business location, which may be different from billing and shipping address
+    public static final String          TYPE_BUSINESS_ADDR     = "BusinessAddr";
+    public static final String          TYPE_BUSINESS_EMAIL    = "BusinessEmail";
+    public static final String          TYPE_BUSINESS_FAX      = "BusinessFax";
+    public static final String          TYPE_BUSINESS_PHONE    = "BusinessPhone";
+    public static final String          TYPE_HOME_ADDR         = "HomeAddr";
+    public static final String          TYPE_HOME_EMAIL        = "HomeEmail";
+    public static final String          TYPE_HOME_FAX          = "HomeFax";
+    public static final String          TYPE_HOME_PHONE        = "HomePhone";
+    // this is a business location, which may be different from billing and shipping address
     public static final String          TYPE_LOCATION_ADDR     = "LocationAddress";
+    public static final String          TYPE_LOCATION_EMAIL    = "LocationEmail";
     public static final String          TYPE_LOCATION_FAX      = "LocationFax";
     public static final String          TYPE_LOCATION_PHONE    = "LocationPhone";
-    public static final String          TYPE_LOCATION_EMAIL    = "LocationEmail";
     public static final String          TYPE_SHIPPING_ADDR     = "ShippingAddress";
-    public static final String          TYPE_BUSINESS_EMAIL    = "BusinessEmail";
-    public static final String          TYPE_BUSINESS_PHONE    = "BusinessPhone";
+    public static final String          TYPE_WORK_ADDR         = "WorkAddr";
+    public static final String          TYPE_WORK_EMAIL        = "WorkEmail";
+    public static final String          TYPE_WORK_FAX          = "WorkFax";
+    public static final String          TYPE_WORK_PHONE        = "WorkPhone";
 
     private String addressId;
 
@@ -39,6 +49,8 @@ public class ContactPointDto {
     private String countryCode;
 
     private String email;
+
+    private String phoneExtension;
 
     private String phoneNumber;
 
@@ -140,6 +152,14 @@ public class ContactPointDto {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getPhoneExtension() {
+        return phoneExtension;
+    }
+
+    public void setPhoneExtension(String phoneExtension) {
+        this.phoneExtension = phoneExtension;
     }
 
     public String getPhoneNumber() {
