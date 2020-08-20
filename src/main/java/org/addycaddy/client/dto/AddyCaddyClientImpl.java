@@ -26,15 +26,19 @@ public class AddyCaddyClientImpl implements AddyCaddyClient {
     private int                         port;
 
     protected AddyCaddyClientImpl() {
+        this("localhost");
+        System.err.println("No arg constructor");
     }
 
     public AddyCaddyClientImpl(String hostname) {
         this(hostname, DEFAULT_PORT);
+        System.err.println("Hostname constructor");
     }
 
     public AddyCaddyClientImpl(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
+        System.err.println("Full constructor");
     }
 
     protected String getHostname() {

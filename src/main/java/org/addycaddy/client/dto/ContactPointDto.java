@@ -58,34 +58,70 @@ public class ContactPointDto {
 
     private String longitude;
 
+    /**
+     * An optional additional owner ID that can be used along with customer ID to define ownership of a group of addresses.
+     * @return the additional ID
+     */
     public String getAdditionalId() {
         return additionalId;
     }
 
+    /**
+     * An optional additional owner ID that can be used along with customer ID to define ownership of a group of addresses.
+     * @param additionalId the additional ID
+     */
     public void setAdditionalId(String additionalId) {
         this.additionalId = additionalId;
     }
 
+    /**
+     * The type of contact point. A given customer ID/additional ID can only have one contact point of a type at a time.
+     * If a new one is created, the old one will be ended.
+     * @return the contact point type
+     */
     public String getContactPointType() {
         return contactPointType;
     }
 
+    /**
+     * The type of contact point. A given customer ID/additional ID can only have one contact point of a type at a time.
+     * If a new one is created, the old one will be ended.
+     * @param contactPointType the contact point type
+     */
     public void setContactPointType(String contactPointType) {
         this.contactPointType = contactPointType;
     }
 
+    /**
+     * Unique identifier for this address. Will be set by AddyCaddy if not provided.
+     * @return the address ID
+     */
     public String getAddressId() {
         return addressId;
     }
 
+    /**
+     * Unique identifier for this address. Will be set by AddyCaddy if not provided.
+     * @param addressId the address ID
+     */
     public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
 
+    /**
+     * The primary ID for the owner of this contact point. It is expected for several contact points to have the same
+     * customer ID.
+     * @return the customer ID
+     */
     public String getCustomerId() {
         return customerId;
     }
 
+    /**
+     * The primary ID for the owner of this contact point. It is expected for several contact points to have the same
+     * customer ID.
+     * @param customerId the customer ID
+     */
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
