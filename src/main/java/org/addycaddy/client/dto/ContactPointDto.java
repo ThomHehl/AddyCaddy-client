@@ -235,6 +235,7 @@ public class ContactPointDto {
         return "ContactPointDto{" +
                 "addressId='" + addressId + '\'' +
                 ", customerId='" + customerId + '\'' +
+                ", additionalId='" + additionalId + '\'' +
                 ", contactPointType='" + contactPointType + '\'' +
                 ", attention='" + attention + '\'' +
                 ", name='" + name + '\'' +
